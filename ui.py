@@ -1,11 +1,12 @@
 import streamlit as st
 import requests
 
+
 # Set up the Streamlit app
 def main():
-    # App title and configuration
     st.set_page_config(page_title="HealthSense AI", page_icon="💡")
     st.title("HealthSense AI 💡")
+    st.write("Type your query below and get a response!")
     st.markdown(
         """
         #### Welcome to HealthSense AI!  
@@ -14,35 +15,22 @@ def main():
         """
     )
 
-    # Initialize session state for conversation history
+    # Initialize session state for storing conversation history
     if "conversation" not in st.session_state:
         st.session_state["conversation"] = []
 
-    # Chat display container
-    st.markdown("### Chat History")
-    chat_container = st.container()
-    with chat_container:
-        for chat in st.session_state["conversation"]:
-            with st.chat_message("user"):
-                st.markdown(f"{chat['user']}")
-            with st.chat_message("assistant"):
-                st.markdown(f"{chat['bot']}")
+    # Input text box for the user
+    user_query = st.text_input("Your Query:", placeholder="Ask something...")
 
-    # Chat input container
-    st.markdown("### Talk to HealthSense AI")
-    with st.form("chat_form", clear_on_submit=True):
-        user_query = st.text_area(
-            "Enter your message:",
-            placeholder="Ask HealthSense AI anything about health and wellness...",
-        )
-        submit_button = st.form_submit_button("Send")
-
-        if submit_button and user_query:
+    # Submit button
+    if st.button("Send"):
+        if user_query:
             # Prepare the payload for the POST request
             payload = {"query": user_query}
 
             try:
                 # Make the POST request to the API endpoint
+                # Replace 'API_ENDPOINT_URL' with the actual endpoint URL
                 response = requests.post("http://127.0.0.1:5000/response", json=payload)
 
                 if response.status_code == 200:
@@ -52,27 +40,25 @@ def main():
                     # Extract and display the chatbot response
                     bot_response = data.get("response", "No response found.")
 
-                    # Append the conversation to session state
+                    # Save the conversation to session state
                     st.session_state["conversation"].append(
                         {"user": user_query, "bot": bot_response}
                     )
-                    st.experimental_rerun()
+                    # st.success(f"Chatbot: {bot_response}")
                 else:
                     st.error(
                         f"Error {response.status_code}: Unable to get a response from the API."
                     )
             except requests.exceptions.RequestException as e:
                 st.error(f"An error occurred: {e}")
-        elif submit_button:
+        else:
             st.warning("Please enter a query before sending.")
 
-    # Footer
-    st.markdown(
-        """
-        ---
-        *Powered by HealthSense AI. Your trusted health assistant.*  
-        """
-    )
+    # Display the conversation history
+    st.write("### Conversation History")
+    for chat in st.session_state["conversation"]:
+        st.write(f"**Patient:** {chat['user']}")
+        st.write(f"**HeathSenseAI:** {chat['bot']}")
 
 
 if __name__ == "__main__":
