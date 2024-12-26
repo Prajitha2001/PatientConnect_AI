@@ -2,7 +2,7 @@
 
 MediTrainAI is a Python-based application designed for efficient backend API handling and frontend UI. The application leverages Flask for API development and Streamlit for UI.
 ## APP link
-https://healthmate-mental-and-physical-health.streamlit.app/
+
 
 ## Requirements
 
