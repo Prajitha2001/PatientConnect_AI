@@ -14,7 +14,7 @@ def main():
     )
 
     # Doctor Bot Image
-    doctor_image = Image.open("D:\\MTech\\Infosys\\init\\doctor_bot.jpg")  # Replace with your bot image file
+    doctor_image = Image.open("doctor_bot.jpg")  # Replace with your bot image file
     st.image(doctor_image, caption="HealthMate AI", use_container_width=True)
 
     # Mind or Body Selector
