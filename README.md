@@ -46,7 +46,7 @@ This application consists of two components:
 
 Both components can run simultaneously.
 
-### Running the Backend API (`app2.py`):
+### Running the Backend API (`backend.py`):
 
 1. Start the API using Flask:
    ```bash
@@ -58,7 +58,7 @@ Both components can run simultaneously.
    https://xyz.com
    ```
 
-### Running the Frontend UI (`ui.py`):
+### Running the Frontend UI (`frontend.py`):
 
 1. Start the UI using Streamlit:
    ```bash
