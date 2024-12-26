@@ -1,4 +1,4 @@
-# MediTrainAI
+# HealthMate_AI
 
 MediTrainAI is a Python-based application designed for efficient backend API handling and frontend UI. The application leverages Flask for API development and Streamlit for UI.
 ## APP link
@@ -41,8 +41,8 @@ Follow the steps below to set up and run the project on your local system:
 
 This application consists of two components:
 
-1. **Backend API** (`app2.py`): Accessible via Postman or other API testing tools.
-2. **Frontend UI** (`ui.py`): Accessible via a web browser.
+1. **Backend API** (`backend.py`): Accessible via Postman or other API testing tools.
+2. **Frontend UI** (`frontend.py`): Accessible via a web browser.
 
 Both components can run simultaneously.
 
@@ -50,7 +50,7 @@ Both components can run simultaneously.
 
 1. Start the API using Flask:
    ```bash
-   python app2.py
+   python backend.py
    ```
 
 2. Access the endpoints via Postman or your preferred API client. The backend runs at:
@@ -62,7 +62,7 @@ Both components can run simultaneously.
 
 1. Start the UI using Streamlit:
    ```bash
-   streamlit run ui.py
+   streamlit run frontend.py
    ```
 
 2. Open the browser to view the application. Streamlit will provide a URL, typically something like:
@@ -72,7 +72,7 @@ Both components can run simultaneously.
 
 ## Notes
 
-- Make sure both `ui.py` and `app2.py` are running at the same time to ensure full functionality.
+- Make sure both `frontend.py` and `backend.py` are running at the same time to ensure full functionality.
 - Use the `.env` file for sensitive configurations such as API keys or database connections.
 
 ## Contributing
