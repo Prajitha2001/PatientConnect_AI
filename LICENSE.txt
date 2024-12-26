@@ -1,4 +1,4 @@
-MIT License
+Infosys License
 
 Copyright (c) 2024 Infosys
 
