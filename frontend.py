@@ -49,7 +49,7 @@ def main():
 
                 try:
                     # Simulating a backend request - Replace with your actual API endpoint
-                    response = requests.post("http://127.0.0.1:5000/response", json=payload)
+                    response = requests.post("https://healthmate-ai.onrender.com/response", json=payload)
                     if response.status_code == 200:
                         data = response.json()
                         bot_response = data.get("response", "No response found.")
