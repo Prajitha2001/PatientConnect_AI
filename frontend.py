@@ -7,16 +7,17 @@ def main():
     st.set_page_config(page_title="HealthMate AI", page_icon="🩺", layout="wide")
 
     # App title and description
-    st.title("🤖 HealthMate AI")
-    st.subheader("Your Friendly AI for Mind and Body Care")
-    st.write(
-        "Ask me anything about your mental or physical health, and I'll guide you like a friendly doctor."
-    )
-
-    # Doctor Bot Image
-    doctor_image = Image.open("doctor_bot.jpg")
-    doctor_image = doctor_image.resize((300, 300))
-    st.image(doctor_image, caption="HealthMate AI", use_container_width=True)
+    col1, col2 = st.columns([3, 1])  # Use columns for layout
+    with col1:
+        st.title("🤖 HealthMate AI")
+        st.subheader("Your Friendly AI for Mind and Body Care")
+        st.write(
+            "Ask me anything about your mental or physical health, and I'll guide you like a friendly doctor."
+        )
+    with col2:
+        doctor_image = Image.open("doctor_bot.jpg")
+        resized_image = doctor_image.resize((150, 150))  # Resize the image
+        st.image(resized_image, caption="HealthMate AI")  # Display the resized image
 
     # Mind or Body Selector
     mode = st.sidebar.selectbox("Choose Your Focus:", ["Mental Problem", "Physical Problem"])
@@ -35,8 +36,8 @@ def main():
 
     # Mode validation - check if the query is related to the wrong mode
     if user_query:
-        physical_health_keywords = ["headache", "back", "stomach", "fatigue", "muscle", "joint","head", "eye", "ear", "mouth", "hand", "leg", "feet", "pain"]
-        mental_health_keywords = ["stress", "anxiety", "depression", "mood", "mental", "fatigue", "sleep","mind"]
+        physical_health_keywords = ["headache", "back", "stomach", "fatigue", "muscle", "joint", "head", "eye", "ear", "mouth", "hand", "leg", "feet", "pain"]
+        mental_health_keywords = ["stress", "anxiety", "depression", "mood", "mental", "fatigue", "sleep", "mind"]
 
         # Check if query matches the selected mode
         if mode == "Mental Problem" and any(keyword in user_query.lower() for keyword in physical_health_keywords):
