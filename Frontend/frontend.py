@@ -16,7 +16,7 @@ def main():
         )
     with col2:
         doctor_image = Image.open("doctor_bot.jpg")
-        resized_image = doctor_image.resize((150, 150))  # Resize the image
+        resized_image = doctor_image.resize((200, 200))  # Resize the image
         st.image(resized_image, caption="HealthMate AI")  # Display the resized image
 
     # Mind or Body Selector
@@ -41,9 +41,9 @@ def main():
 
         # Check if query matches the selected mode
         if mode == "Mental Problem" and any(keyword in user_query.lower() for keyword in physical_health_keywords):
-            st.warning("It seems like you're asking about a physical health issue. Please switch to 'Body' mode for physical health concerns.")
+            st.warning("It seems like you're asking about a physical health issue. Please switch to 'Physical Problem' mode for physical health concerns.")
         elif mode == "Physical Problem" and any(keyword in user_query.lower() for keyword in mental_health_keywords):
-            st.warning("It seems like you're asking about a mental health issue. Please switch to 'Mind' mode for mental health concerns.")
+            st.warning("It seems like you're asking about a mental health issue. Please switch to 'Mental Problem' mode for mental health concerns.")
         else:
             # Submit button for correct mode
             if st.button("Ask HealthMate AI"):

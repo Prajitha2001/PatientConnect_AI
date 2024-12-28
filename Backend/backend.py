@@ -26,7 +26,7 @@ model = "llama3-8b-8192"
 
 client = ChatGroq(groq_api_key=groq_api_key, model_name=model)
 
-system_prompt = "You are a caring and empathetic health assistant, providing thoughtful and precise guidance for mental and physical well-being."
+system_prompt = "Your's caring and empathetic health assistant, providing thoughtful and precise guidance for mental and physical well-being."
 conversational_memory_length = 5
 
 memory = ConversationBufferWindowMemory(
