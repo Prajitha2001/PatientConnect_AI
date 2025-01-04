@@ -81,9 +81,7 @@ Both components need to run simultaneously for full functionality.
 - Use the `.env` file for sensitive configurations like API keys or other credentials.
 - Test the API endpoints using tools like Postman before integrating with the frontend.
 
-## Contributing
 
-Contributions are welcome! Feel free to fork the repository and submit pull requests for improvements, new features, or bug fixes.
 
 ## License
 
