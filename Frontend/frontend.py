@@ -71,7 +71,7 @@ def main():
     for chat in st.session_state["conversation"]:
         if chat["mode"] == mode:  # Show only conversations related to the selected mode
             st.write(f"**You ({chat['mode']}):** {chat['user']}")
-            st.write(f"**PatientConnect AI:** {chat['bot']}")
+            st.write(f"**Patient:** {chat['bot']}")
             st.markdown("---")
 
 if __name__ == "__main__":
