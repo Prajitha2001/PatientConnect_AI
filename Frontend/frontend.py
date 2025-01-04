@@ -15,7 +15,7 @@ def main():
             "I am here to share my health concerns with you. Please guide me like the expert doctor you are."
         )
     with col2:
-        doctor_image = Image.open("patient_bot.jpg")  # Updated image filename
+        doctor_image = Image.open("doctor_bot.jpg")  # Updated image filename
         resized_image = doctor_image.resize((200, 200))  # Resize the image
         st.image(resized_image, caption="PatientConnect AI")  # Display the resized image
 
