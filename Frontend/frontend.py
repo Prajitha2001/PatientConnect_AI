@@ -4,23 +4,23 @@ import requests
 
 def main():
     # Set page config
-    st.set_page_config(page_title="HealthMate AI", page_icon="🩺", layout="wide")
+    st.set_page_config(page_title="PatientConnect AI", page_icon="🩺", layout="wide")
 
     # App title and description
     col1, col2 = st.columns([3, 1])  # Use columns for layout
     with col1:
-        st.title("🤖 HealthMate AI")
-        st.subheader("Your Friendly AI for Mind and Body Care")
+        st.title("🩺 PatientConnect AI")
+        st.subheader("Your AI Companion for Health Concerns")
         st.write(
-            "Ask me anything about your mental or physical health, and I'll guide you like a friendly doctor."
+            "I am here to share my health concerns with you. Please guide me like the expert doctor you are."
         )
     with col2:
-        doctor_image = Image.open("doctor_bot.jpg")
+        doctor_image = Image.open("patient_bot.jpg")  # Updated image filename
         resized_image = doctor_image.resize((200, 200))  # Resize the image
-        st.image(resized_image, caption="HealthMate AI")  # Display the resized image
+        st.image(resized_image, caption="PatientConnect AI")  # Display the resized image
 
     # Mind or Body Selector
-    mode = st.sidebar.selectbox("Choose Your Focus:", ["Mental Problem", "Physical Problem"])
+    mode = st.sidebar.selectbox("Choose My Concern:", ["Mental Problem", "Physical Problem"])
 
     # Conversation storage
     if "conversation" not in st.session_state:
@@ -28,11 +28,11 @@ def main():
 
     # Input section based on mode
     if mode == "Mental Problem":
-        st.header("🧠 Mental Health Support")
-        user_query = st.text_input("What's on your mind?", placeholder="e.g., How do I manage stress?")
+        st.header("🧠 Mental Health Concern")
+        user_query = st.text_input("What do you think about my concern?", placeholder="e.g., I often feel anxious.")
     else:
-        st.header("🏋️ Physical Health Support")
-        user_query = st.text_input("What's your physical health concern?", placeholder="e.g., How do I relieve back pain?")
+        st.header("🏋️ Physical Health Concern")
+        user_query = st.text_input("Can you help with my physical issue?", placeholder="e.g., I have persistent back pain.")
 
     # Mode validation - check if the query is related to the wrong mode
     if user_query:
@@ -41,17 +41,17 @@ def main():
 
         # Check if query matches the selected mode
         if mode == "Mental Problem" and any(keyword in user_query.lower() for keyword in physical_health_keywords):
-            st.warning("It seems like you're asking about a physical health issue. Please switch to 'Physical Problem' mode for physical health concerns.")
+            st.warning("It seems like I mentioned a physical health issue. Please switch to 'Physical Problem' mode for such concerns.")
         elif mode == "Physical Problem" and any(keyword in user_query.lower() for keyword in mental_health_keywords):
-            st.warning("It seems like you're asking about a mental health issue. Please switch to 'Mental Problem' mode for mental health concerns.")
+            st.warning("It seems like I mentioned a mental health issue. Please switch to 'Mental Problem' mode for such concerns.")
         else:
             # Submit button for correct mode
-            if st.button("Ask HealthMate AI"):
+            if st.button("Respond to My Concern"):
                 payload = {"query": user_query, "mode": mode}
 
                 try:
                     # Simulating a backend request - Replace with your actual API endpoint
-                    response = requests.post("https://healthmate-ai.onrender.com/response", json=payload)
+                    response = requests.post("https://patientconnect-ai.onrender.com/response", json=payload)
                     if response.status_code == 200:
                         data = response.json()
                         bot_response = data.get("response", "No response found.")
@@ -71,7 +71,7 @@ def main():
     for chat in st.session_state["conversation"]:
         if chat["mode"] == mode:  # Show only conversations related to the selected mode
             st.write(f"**You ({chat['mode']}):** {chat['user']}")
-            st.write(f"**HealthMate AI:** {chat['bot']}")
+            st.write(f"**PatientConnect AI:** {chat['bot']}")
             st.markdown("---")
 
 if __name__ == "__main__":
