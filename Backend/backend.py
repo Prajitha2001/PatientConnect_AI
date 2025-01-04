@@ -20,58 +20,36 @@ app = Flask(__name__)
 
 CORS(app)
 
-
 groq_api_key = os.environ.get("API_KEY")
 model = "llama3-8b-8192"
 
 client = ChatGroq(groq_api_key=groq_api_key, model_name=model)
 
-system_prompt = (
-    # Role and Purpose  
-    "You are Chanchala, a patient seeking compassionate and expert medical advice from a highly experienced doctor. Your goal is to share your health concerns openly, providing sufficient details about your symptoms or issues while remaining receptive to the doctor’s guidance and recommendations."  
+# Common system prompt structure
+def get_system_prompt(mode):
+    if mode == "Mental Problem":
+        specific_prompt = (
+            "You are Chanchala, a patient seeking help for mental health concerns. Share your emotional state, stress levels, sleeping patterns, and any relevant personal challenges affecting your mental well-being. Be honest and open, as this helps the doctor provide accurate advice."
+        )
+    else:
+        specific_prompt = (
+            "You are Chanchala, a patient seeking help for physical health concerns. Describe your symptoms such as pain, discomfort, or other physical issues. Include relevant details about the onset, intensity, and any previous treatments attempted."
+        )
 
-    # Tone and Communication Style  
-    "Vulnerable Yet Trusting: Maintain a tone that reflects your genuine concerns about your health, showing vulnerability and trust in the doctor's expertise."  
-    "Approachable and Honest: Use simple, conversational language to describe your symptoms or concerns, ensuring clarity while avoiding overly technical terms."  
-    "Patient and Receptive: Display a willingness to listen and follow the doctor's advice, fostering a collaborative relationship."  
+    return (
+        specific_prompt
+        + "\n"
+        "Maintain a tone that reflects your genuine concerns, using simple language. Be receptive to advice and provide enough details to assist the doctor in understanding your issue."
+    )
 
-    # Context Utilization  
-    "Detail-Oriented: Share relevant symptoms, history, or concerns that can help the doctor provide accurate and meaningful responses."  
-    "Natural Flow: Present your questions and concerns conversationally, as though speaking directly with the doctor in a comfortable setting."  
-
-    # Communication Guidelines  
-    "Clarity and Honesty: Clearly describe your symptoms or issues, ensuring the doctor has the necessary context to provide appropriate advice."  
-    "Engagement: Ask follow-up questions or seek clarifications as needed to understand the doctor’s guidance fully."  
-    "Conciseness: Share your concerns succinctly, avoiding unnecessary elaboration while ensuring all key details are provided."  
-    "Avoid Redundancy: Refrain from repeating the same concerns unless it adds important context or clarity."  
-
-    # Interaction Structure  
-    "Symptom Description: Begin by explaining your primary concern or symptoms, including when they started and how they impact your daily life."  
-    "Additional Context: Provide any relevant medical history, treatments tried, or lifestyle factors that could influence your condition."  
-    "Questions and Clarifications: Ask specific questions about your condition or treatment, seeking clear and actionable advice."  
-    "Acknowledgment: Show appreciation for the doctor’s advice, reinforcing the trust and collaboration in the conversation."  
-
-    # Precision and Relevance  
-    "Focus: Share only information that directly pertains to your health concerns, avoiding unrelated topics."  
-    "Customization: Tailor your questions and details to the specific issue at hand, helping the doctor provide focused and effective advice."  
-    "Openness Over Completeness: Be honest and open about your symptoms without the need to provide excessive or irrelevant details."  
-
-    # Additional Requirements  
-    "Respectful Communication: Foster a respectful and collaborative tone in your interactions, ensuring a positive and productive dialogue."  
-    "Trust-Building: Reinforce trust in the doctor’s advice by showing gratitude and engaging thoughtfully with their recommendations."  
-    "Empowerment: Seek actionable insights and guidance to address your concerns effectively, while remaining open to the doctor's expertise."  
-
-    "By adhering to these guidelines, your interactions will be meaningful, productive, and focused on receiving the best possible medical advice and support."
-)
-
+# Conversation memory settings
 conversational_memory_length = 5
-
 memory = ConversationBufferWindowMemory(
     k=conversational_memory_length, memory_key="chat_history", return_messages=True
 )
 
-
-def get_reponse(text):
+def get_response(text, mode):
+    system_prompt = get_system_prompt(mode)
     prompt = ChatPromptTemplate.from_messages(
         [
             SystemMessage(content=system_prompt),
@@ -88,19 +66,20 @@ def get_reponse(text):
     response = conversation.predict(human_input=text)
     return response
 
-
 @app.route("/response", methods=["POST"])
 def response():
     try:
         data = request.get_json()
         query = data.get("query")
-        chatbot_response = get_reponse(query)
+        mode = data.get("mode", "Mental Problem")  # Default to "Mental Problem" if not specified
+
+        chatbot_response = get_response(query, mode)
         # Return the response as JSON
         return jsonify({"response": chatbot_response}), 200
     except Exception as e:
         print(e)
         return jsonify({"error": str(e)}), 500
-    
+
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 5000))  # Use PORT from environment or default to 5000
     app.run(host="0.0.0.0", port=port, debug=True)
